@@ -474,9 +474,10 @@ export default function BioDefenseGame() {
 
   const closeModal = () => {
     const updated = buildings.map(b =>
-      b.id === activeBuilding?.id ? { ...b, resolved: true, type: 'healthy' as BuildingType } : b
+      b.id === activeBuilding?.id && modalFeedback?.success ? { ...b, resolved: true, type: 'healthy' as BuildingType } : b
     );
-    setGameState('PLAYING'); setActiveBuilding(null);
+    setGameState('PLAYING');
+    setActiveBuilding(null);
     const remaining = updated.filter(b => b.type === 'infected' && !b.resolved);
     if (remaining.length === 0 && modalFeedback?.success) {
       if (currentLevel < levels.length - 1) {
@@ -663,6 +664,19 @@ export default function BioDefenseGame() {
         )}
 
         {gameState==='VICTORY'&&(
-          <div className="absolute inset-0 bg- **...**
+          <div className="absolute inset-0 bg-emerald-900/95 flex flex-col items-center justify-center p-6 text-center z-20">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-3xl font-black text-emerald-300 mb-2">Operativo Exitoso</h2>
+            <p className="max-w-md text-slate-300 mb-6 text-sm">Has controlado los focos y protegido a la comunidad. ¡Buen trabajo, agente!</p>
+            <div className="text-slate-400 text-sm mb-6">Puntaje: <span className="text-yellow-400 font-bold">{score} pts</span></div>
+            <button onClick={restartGame} className="px-6 py-3 bg-white text-emerald-900 font-bold rounded-xl hover:bg-emerald-100 transition text-sm">
+              Reiniciar Misión
+            </button>
+          </div>
+        )}
 
-_This response is too long to display in full._
+      </main>
+    </div>
+  );
+}
+
